@@ -1,0 +1,18 @@
+rethinkdb:
+  image: 'rethinkdb:latest'
+  environment:
+    - 'EXCLUDE_PORTS=28015,29015'
+  expose:
+    - '8080'
+    - '28015'
+    - '29015'
+rethinkdb-proxy:
+  image: 'tutum/haproxy:staging'
+  environment:
+    - 'HTTP_BASIC_AUTH=<your_username>:<your_password>'
+  links:
+    - rethinkdb
+  ports:
+    - '8080:80'
+  roles:
+    - global
